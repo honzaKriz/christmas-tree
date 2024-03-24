@@ -8,7 +8,7 @@ const ChristmasTree = () => {
   const [levels, setNumOfLevels] = useState<number | null>(0);
 
   const createLevels = () => {
-    if (!levels) return;
+    if (!levels) return { branchPattern: '', trunkPattern: '' };
 
     let branchPattern = '';
     let trunkPattern = '';
@@ -37,14 +37,12 @@ const ChristmasTree = () => {
       trunkPattern += trunk;
     }
     let trunkBase = '*'.repeat(gap);
-
     trunkPattern += trunkBase;
 
-    branchPattern += trunkPattern;
-    return branchPattern;
+    return { branchPattern, trunkPattern };
   };
 
-  const treePattern = createLevels();
+  const { branchPattern, trunkPattern } = createLevels();
 
   const submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -84,8 +82,9 @@ const ChristmasTree = () => {
           <div>
             <pre className='text-center mt-12 text-green-600'>
               <pre className='text-center text-amber-500'>*</pre>
-              {treePattern}
+              {branchPattern}
             </pre>
+            <pre className='text-center text-amber-950'>{trunkPattern}</pre>
           </div>
           <button
             className='w-20 h-20 rounded-full fixed bottom-4 right-4 flex items-center justify-center p-0 border-none'

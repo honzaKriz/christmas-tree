@@ -3,17 +3,17 @@
 import React, { useState } from 'react';
 
 const ChristmasTree = () => {
-  // temporary declaration of levels locally for testing purposes only, DELETE AFTER USER INPUT IMPLEMENTATION
   const [input, setInput] = useState('');
   const [levels, setNumOfLevels] = useState<number | null>(0);
 
   const createLevels = () => {
     if (!levels) return;
 
-    let pattern = '';
-    pattern += '  *  \n';
-    pattern += ' * * \n';
-    pattern += '** **\n';
+    let branchPattern = '';
+    let trunkPattern = '';
+    branchPattern += '  *  \n';
+    branchPattern += ' * * \n';
+    branchPattern += '** **\n';
 
     let gap = 3;
 
@@ -21,17 +21,26 @@ const ChristmasTree = () => {
       let rows = level + 1;
       for (let row = 1; row < rows; row++) {
         let spaces = ' '.repeat(gap + (row - 1) * 2);
-        pattern += `*${spaces}*\n`;
+        branchPattern += `*${spaces}*\n`;
       }
 
       let branchWidth =
         '*'.repeat(level + 1) + ' '.repeat(gap) + '*'.repeat(level + 1);
-      pattern += `${branchWidth}\n`;
+      branchPattern += `${branchWidth}\n`;
 
       gap += 2;
     }
 
-    return pattern;
+    for (let level = 0; level < levels; level++) {
+      let trunk = '*' + ' '.repeat(gap - 2) + '*' + '\n';
+      trunkPattern += trunk;
+    }
+    let trunkBase = '*'.repeat(gap);
+
+    trunkPattern += trunkBase;
+
+    branchPattern += trunkPattern;
+    return branchPattern;
   };
 
   const treePattern = createLevels();

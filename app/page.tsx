@@ -6,6 +6,9 @@ const ChristmasTree = () => {
     pattern += '  *  \n';
     pattern += ' * * \n';
     pattern += '** **\n';
+    pattern += '*   *\n';
+    pattern += '*     *\n';
+    pattern += '***   ***\n';
     return pattern;
   };
 

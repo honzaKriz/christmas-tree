@@ -83,6 +83,7 @@ const ChristmasTree = () => {
           </h1>
           <div>
             <pre className='text-center mt-12 text-green-600'>
+              <pre className='text-center text-amber-500'>*</pre>
               {treePattern}
             </pre>
           </div>

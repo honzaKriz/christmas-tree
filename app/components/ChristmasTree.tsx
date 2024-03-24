@@ -36,7 +36,8 @@ const ChristmasTree = () => {
 
   const treePattern = createLevels();
 
-  const submit = () => {
+  const submit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const numLevels = parseInt(input, 10);
     if (!isNaN(numLevels) && numLevels > 0) {
       setNumOfLevels(numLevels);
@@ -46,28 +47,46 @@ const ChristmasTree = () => {
   return (
     <>
       {levels ? (
-        <div>
-          <pre className='text-center'>{treePattern}</pre>
-        </div>
+        <>
+          <div>
+            <pre className='text-center'>{treePattern}</pre>
+          </div>
+          <button
+            className='w-20 h-20 rounded-full fixed bottom-4 right-4 flex items-center justify-center p-0 border-none'
+            style={{ backgroundColor: 'transparent' }}
+            onClick={() => setNumOfLevels(0)}
+          >
+            <img
+              src='back.png'
+              alt='Back'
+              className='w-full h-full object-contain rounded-full'
+            />
+          </button>
+        </>
       ) : (
         <div className='flex items-center justify-center h-screen'>
-          <div className='flex flex-col items-center space-y-4 border-4 rounded border-lime-800 p-4'>
-            <span>
-              How many branches do you want your Christmas tree to have?
-            </span>
-            <input
-              type='number'
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder='Enter a number'
-              className='text-black w-48'
-            />
-            <button
-              onClick={submit}
-              className='w-48 border-2 rounded border-lime-400'
+          <div className='flex flex-col items-center space-y-4 border-4 rounded border-green-800 p-8 bg-branches backdrop-opacity-10'>
+            <form
+              className='flex flex-col items-center space-y-4 z-10'
+              onSubmit={submit}
             >
-              Submit
-            </button>
+              <span className='text-lg font-bold text-slate-200 relative'>
+                How many branches do you want your Christmas tree to have?
+              </span>
+              <input
+                type='number'
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder='Enter a number'
+                className='text-black w-48 p-2 rounded relative'
+              />
+              <button
+                type='submit' // Ensure the button submits the form
+                className='w-48 border-2 rounded border-green-800 bg-green-950 p-2 font-semibold hover:bg-green-800 hover:text-white transition text-slate-200 relative'
+              >
+                Submit
+              </button>
+            </form>
           </div>
         </div>
       )}

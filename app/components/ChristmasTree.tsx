@@ -76,8 +76,15 @@ const ChristmasTree = () => {
     <>
       {levels ? (
         <>
+          <h1 className='text-lg font-bold mt-8 text-center text-amber-500 text-4xl'>
+            {levels > 1
+              ? `Here is your Christmas tree with ${levels} branches!`
+              : `Here is the tinniest Christmas tree with only ${1} branch!`}
+          </h1>
           <div>
-            <pre className='text-center'>{treePattern}</pre>
+            <pre className='text-center mt-12 text-green-600'>
+              {treePattern}
+            </pre>
           </div>
           <button
             className='w-20 h-20 rounded-full fixed bottom-4 right-4 flex items-center justify-center p-0 border-none'

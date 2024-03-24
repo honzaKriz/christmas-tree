@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import ErrorMessages from './ErrorMessages';
 
 const ChristmasTree = () => {
   const [input, setInput] = useState('');
@@ -47,10 +48,28 @@ const ChristmasTree = () => {
 
   const submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const numLevels = parseInt(input, 10);
-    if (!isNaN(numLevels) && numLevels > 0) {
-      setNumOfLevels(numLevels);
+    if (input.trim() === '') {
+      alert(ErrorMessages.message1);
+      return;
     }
+
+    const numLevels = parseInt(input, 10);
+    if (isNaN(numLevels)) {
+      alert(ErrorMessages.message2);
+      return;
+    }
+
+    if (numLevels < 1) {
+      alert(ErrorMessages.message3);
+      return;
+    }
+
+    if (numLevels > 42) {
+      alert(ErrorMessages.message4);
+      return;
+    }
+
+    setNumOfLevels(numLevels);
   };
 
   return (
@@ -83,15 +102,15 @@ const ChristmasTree = () => {
                 How many branches do you want your Christmas tree to have?
               </span>
               <input
-                type='number'
+                type='text'
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder='Enter a number'
-                className='text-black w-48 p-2 rounded relative'
+                placeholder='Enter a number between 1 and 24'
+                className='text-black w-72 p-2 rounded relative'
               />
               <button
-                type='submit' // Ensure the button submits the form
-                className='w-48 border-2 rounded border-green-800 bg-green-950 p-2 font-semibold hover:bg-green-800 hover:text-white transition text-slate-200 relative'
+                type='submit'
+                className='w-72 border-2 rounded border-green-800 bg-green-950 p-2 font-semibold hover:bg-green-800 hover:text-white transition text-slate-200 relative'
               >
                 Submit
               </button>

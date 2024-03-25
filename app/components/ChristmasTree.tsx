@@ -25,18 +25,26 @@ const ChristmasTree = () => {
         branchPattern += `*${spaces}*\n`;
       }
 
+      let starCount = level + 1;
+      let gapWidth = gap;
+
+      if (level === levels) {
+        starCount += levels / 2;
+        gapWidth = levels;
+      }
+
       let branchWidth =
-        '*'.repeat(level + 1) + ' '.repeat(gap) + '*'.repeat(level + 1);
+        '*'.repeat(starCount) + ' '.repeat(gapWidth) + '*'.repeat(starCount);
       branchPattern += `${branchWidth}\n`;
 
       gap += 2;
     }
 
     for (let level = 0; level < levels; level++) {
-      let trunk = '*' + ' '.repeat(gap - 2) + '*' + '\n';
+      let trunk = '*' + ' '.repeat(levels) + '*' + '\n';
       trunkPattern += trunk;
     }
-    let trunkBase = '*'.repeat(gap);
+    let trunkBase = '*'.repeat(levels + 2);
     trunkPattern += trunkBase;
 
     return { branchPattern, trunkPattern };

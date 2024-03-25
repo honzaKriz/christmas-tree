@@ -6,6 +6,7 @@ import ErrorMessages from './ErrorMessages';
 const ChristmasTree = () => {
   const [input, setInput] = useState('');
   const [levels, setNumOfLevels] = useState<number | null>(0);
+  const [isChain, setIsChain] = useState(true);
 
   const createLevels = () => {
     if (!levels) return { branchPattern: '', trunkPattern: '' };
@@ -21,8 +22,14 @@ const ChristmasTree = () => {
     for (let level = 2; level <= levels; level++) {
       let rows = level + 1;
       for (let row = 1; row < rows; row++) {
-        let spaces = ' '.repeat(gap + (row - 1) * 2);
-        branchPattern += `*${spaces}*\n`;
+        if (isChain) {
+          let preGap = ' '.repeat((row - 1) * 4);
+          let postGap = ' '.repeat(gap + (row - 1) * 2 - preGap.length - 1);
+          branchPattern += `*${preGap}*${postGap}*\n`;
+        } else {
+          let spaces = ' '.repeat(gap + (row - 1) * 2);
+          branchPattern += `*${spaces}*\n`;
+        }
       }
 
       let starCount = level + 1;
@@ -81,14 +88,26 @@ const ChristmasTree = () => {
   return (
     <>
       {levels ? (
-        <>
+        <div className='flex justify-center items-center flex-col'>
           <h1 className='text-lg font-bold mt-8 text-center text-amber-500 text-4xl'>
             {levels > 1
               ? `Here is your Christmas tree with ${levels} branches!`
               : `Here is the tinniest Christmas tree with only ${1} branch!`}
           </h1>
+          <button
+            onClick={() => setIsChain((prevState) => !prevState)}
+            className={`${
+              isChain ? 'bg-green-400' : 'bg-gray-300'
+            } rounded-full flex items-center justify-center mx-auto mt-4`}
+          >
+            <img
+              src='chain.png'
+              alt='Christmas chain toggle button'
+              className='w-12 h-12 object-contain rounded-full'
+            />
+          </button>
           <div>
-            <pre className='text-center mt-12 text-green-600'>
+            <pre className='text-center mt-8 text-green-600'>
               <pre className='text-center text-amber-500'>*</pre>
               {branchPattern}
             </pre>
@@ -101,11 +120,11 @@ const ChristmasTree = () => {
           >
             <img
               src='back.png'
-              alt='Back'
+              alt='Back button'
               className='w-full h-full object-contain rounded-full'
             />
           </button>
-        </>
+        </div>
       ) : (
         <div className='flex items-center justify-center h-screen'>
           <div className='flex flex-col items-center space-y-4 border-4 rounded border-green-800 p-8 bg-branches backdrop-opacity-10'>

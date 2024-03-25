@@ -6,7 +6,7 @@ import ErrorMessages from './ErrorMessages';
 const ChristmasTree = () => {
   const [input, setInput] = useState('');
   const [levels, setNumOfLevels] = useState<number | null>(0);
-  const [isChain, setIsChain] = useState(true);
+  const [isChain, setIsChain] = useState(false);
 
   const createLevels = () => {
     if (!levels) return { branchPattern: '', trunkPattern: '' };

@@ -1,27 +1,38 @@
 'use client';
 
 import React, { useState } from 'react';
+// importing various validation error messages from a separate file
 import ErrorMessages from './ErrorMessages';
 
 const ChristmasTree = () => {
+  // states for input field, number of branches, and the christmas chain
   const [input, setInput] = useState('');
   const [levels, setNumOfLevels] = useState<number | null>(0);
   const [isChain, setIsChain] = useState(false);
 
+  // function responsible for returning the tree pattern
   const createLevels = () => {
+    // if the levels is ever empty, return empty strings - this case should never occur, but with TypeScript, levels cannot remain 'possibly null'
     if (!levels) return { branchPattern: '', trunkPattern: '' };
 
+    // initiate separate branch and trunk pattern
+    // the separation is later used for applying different colors to each part
     let branchPattern = '';
     let trunkPattern = '';
+
+    // manually create the first level because that's the minimum value anyway
     branchPattern += '  *  \n';
     branchPattern += ' * * \n';
     branchPattern += '** **\n';
 
+    // number of spaces on the first row
     let gap = 3;
 
+    // nested loop for generating a string for each level and each row within it, increasing the gap between asterisks
     for (let level = 2; level <= levels; level++) {
       let rows = level + 1;
       for (let row = 1; row < rows; row++) {
+        // if the chain is on, generate a slightly different pattern for each row
         if (isChain) {
           let preGap = ' '.repeat((row - 1) * 4);
           let postGap = ' '.repeat(gap + (row - 1) * 2 - preGap.length - 1);
@@ -32,9 +43,11 @@ const ChristmasTree = () => {
         }
       }
 
+      // logic for the last row in each level
       let starCount = level + 1;
       let gapWidth = gap;
 
+      // if it is the last level on the whole tree, increase the starCount, narrow the gap width
       if (level === levels) {
         starCount += levels / 2;
         gapWidth = levels;
@@ -47,6 +60,7 @@ const ChristmasTree = () => {
       gap += 2;
     }
 
+    // separate loop for rendering the trunk
     for (let level = 0; level < levels; level++) {
       let trunk = '*' + ' '.repeat(levels) + '*' + '\n';
       trunkPattern += trunk;
@@ -57,9 +71,11 @@ const ChristmasTree = () => {
     return { branchPattern, trunkPattern };
   };
 
+  // destructuring the returned values from the createLevels() function so they can be used in the JSX
   const { branchPattern, trunkPattern } = createLevels();
 
   const submit = (e: React.FormEvent<HTMLFormElement>) => {
+    // the input field is wrapped in a form component to quickly enable input submit with the 'Enter' key when the input is in focus, the next line prevents the form default behavior which would cause a page reload
     e.preventDefault();
     if (input.trim() === '') {
       alert(ErrorMessages.message1);
@@ -82,9 +98,11 @@ const ChristmasTree = () => {
       return;
     }
 
+    // when the submit button is clicked or the Enter key is hit, the value of the 'input' state sets the number of levels (branches) which is then passed to the createLevels() function
     setNumOfLevels(numLevels);
   };
 
+  // JSX that is returned and rendered onto the DOM as HTML
   return (
     <>
       {levels ? (
